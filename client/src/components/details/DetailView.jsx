@@ -17,8 +17,7 @@ const Image=styled('img')({
     display:'block',
     margin:'12px',
     width:'100%',
-    
-    height:'auto',
+    height:'700px',
     objectFit:'cover',
 
 });
@@ -63,18 +62,27 @@ const Description=styled(Typography)`
 
     useEffect(()=>{
         const fetchData=async()=>{
-            let response=await API.getPostById(id);
-            if (response.isSuccess) {
-                setPost(response.data);
+            try{
+                let response=await API.getPostById(id);
+                if (response.isSuccess) {
+                    setPost(response.data);
+                }
+            }
+            catch(err){
+                console.log(err);
             }
         }
         fetchData();
     },[id]);
 
     const deleteBlog=async()=>{
-        let response=await API.deletePost(post._id);
-        if (response.isSuccess) {
-            navigate('/');
+        try {
+            let response=await API.deletePost(post._id);
+            if (response.isSuccess) {
+                navigate('/');
+            }
+        } catch (err) {
+            console.log(err);
         }
 
     }

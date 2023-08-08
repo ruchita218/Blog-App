@@ -39,13 +39,17 @@ const Comments = ({post}) => {
 
     useEffect(()=>{
         const getData=async()=>{
-            const response=await API.getAllComments(post._id);
-            if (response.isSuccess) {
-                setComments(response.data);
+            try{
+                const response=await API.getAllComments(post._id);
+                if (response.isSuccess) {
+                    setComments(response.data);
+                }
+            }catch(error){
+                console.log(error);
             }
         }
         getData();
-    },[post,toggle])
+    },[toggle,post])
 
     const handleChange=(e)=>{
         setComment({
@@ -57,11 +61,15 @@ const Comments = ({post}) => {
     }
 
     const addComment=async(e)=>{
-        let response=await API.newComment(comment);
-        if (response.isSuccess) {
-            setComment(initialValues);
+        try{
+            let response=await API.newComment(comment);
+            if (response.isSuccess) {
+                setComment(initialValues);
+            }
+            setToggle(prevState=>!prevState);   {/*changing the prevState  ,if prevstate=true ,it becomes false*/}
+        }catch(err){
+            console.log(err);
         }
-        setToggle(prevState=>!prevState);   {/*changing the prevState  ,if prevstate=true ,it becomes false*/}
     }
   return (
     <Box>
@@ -85,7 +93,7 @@ const Comments = ({post}) => {
          <Box>  {/*comments display */}
              {
                 comments && comments.length>0  && comments.map(comment=>(
-                    <Comment comment={comment} setToggle={setToggle}/>
+                    <Comment key={comment._id} comment={comment} setToggle={setToggle}/>
                 ))
              }
         </Box>

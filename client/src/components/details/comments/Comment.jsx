@@ -31,9 +31,13 @@ const Comment = ({comment,setToggle}) => {
     const {account} =useContext(DataContext);
 
     const removeComment=async()=>{
-        let response=await API.deleteComment(comment._id);
-        if (response.isSuccess) {
-            setToggle(prevState=>!prevState);  {/*if prevstate=true ,it becomes false*/}
+        try {
+            let response=await API.deleteComment(comment._id);
+            if (response.isSuccess) {
+                setToggle(prevState=>!prevState);  {/*if prevstate=true ,it becomes false*/}
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
   return (

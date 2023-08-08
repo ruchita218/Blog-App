@@ -10,7 +10,7 @@ export const API_NOTIFICATION_MESSAGES={
     },
     responseFailure:{
         title:"Error",
-        message:"An error occured while fetching response from the server.Please try again"
+        message:"An error occured while fetching response from the server.Please try again",
     },
     requestFailure:{
         title:'Error',

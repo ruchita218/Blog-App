@@ -1,5 +1,5 @@
 import { Box, styled, Typography, Link } from '@mui/material';
-import { GitHub, Instagram, Email } from '@mui/icons-material';
+import { GitHub, Instagram, Email, LinkedIn } from '@mui/icons-material';
 
 const Banner = styled(Box)`
     background-image: url(https://www.wallpapertip.com/wmimgs/23-236943_us-wallpaper-for-website.jpg);
@@ -40,7 +40,11 @@ const About = () => {
                         <Link href="https://www.instagram.com/ruchita_guptaa_/" color="inherit" target="_blank">
                             <Instagram />
                         </Link>
-                    </Box>  
+                    </Box>
+                    or to my LinkedIn
+                    <Link href="https://www.linkedin.com/in/ruchita-kumari-/" color="inherit" target="_blank">
+                        <LinkedIn/>
+                    </Link>  
                         or send me an Email 
                         <Link href="mailto:ruchitakumari141@gmail.com?Subject=This is a subject" target="_blank" color="inherit">
                             <Email />

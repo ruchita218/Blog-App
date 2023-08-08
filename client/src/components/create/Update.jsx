@@ -65,9 +65,14 @@ const Update = () => {
     useEffect(()=>{
         
         const fetchData=async()=>{
-            let response=await API.getPostById(id);
-            if (response.isSuccess) {
-                setPost(response.data);
+            try{
+                let response=await API.getPostById(id);
+                if (response.isSuccess) {
+                    setPost(response.data);
+                }
+            }
+            catch(err){
+                console.log(err);
             }
         }
         fetchData();
@@ -75,14 +80,19 @@ const Update = () => {
 
     useEffect(()=>{
         const getImage=async()=>{
-            if (file) {
-                const data=new FormData();
-                data.append("name",file.name);
-                data.append("file",file);
-
-                //API Call
-                const response=await API.uploadFile(data);
-                post.picture=response.data;
+            try{
+                if (file) {
+                    const data=new FormData();
+                    data.append("name",file.name);
+                    data.append("file",file);
+    
+                    //API Call
+                    const response=await API.uploadFile(data);
+                    post.picture=response.data;
+                }
+            }
+            catch(err){
+                console.log(err);
             }
         }
         getImage();
@@ -95,9 +105,13 @@ const Update = () => {
     };
  
     const updateBlogPost=async()=>{
-        let response=await API.updatePost(post);
-        if(response.isSuccess){
-            navigate(`/details/${id}`);
+        try {
+            let response=await API.updatePost(post);
+            if(response.isSuccess){
+                navigate(`/details/${id}`);
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
     return (

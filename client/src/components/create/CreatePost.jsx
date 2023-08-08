@@ -63,14 +63,19 @@ const CreatePost = () => {
 
     useEffect(()=>{
         const getImage=async()=>{
-            if (file) {
-                const data=new FormData();
-                data.append("name",file.name);
-                data.append("file",file);
-
-                //API Call
-                const response=await API.uploadFile(data); //first saving the file to db  
-                post.picture=response.data;                 
+            try{
+                if (file) {
+                    const data=new FormData();
+                    data.append("name",file.name);
+                    data.append("file",file);
+    
+                    //API Call
+                    const response=await API.uploadFile(data); //first saving the file to db  
+                    post.picture=response.data;                 
+                }
+            }
+            catch(err){
+                console.log(err);
             }
         }
         getImage();
@@ -83,9 +88,14 @@ const CreatePost = () => {
     };
 
     const savePost=async()=>{
-        let response=await API.createPost(post);
-        if(response.isSuccess){
-            navigate('/');
+        try{
+            let response=await API.createPost(post);
+            if(response.isSuccess){
+                navigate('/');
+            }
+        }
+        catch(err){
+            console.log(err);
         }
     }
     return (

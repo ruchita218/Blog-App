@@ -65,7 +65,7 @@ const signupInitialValues={
 
 const Login = ({isUserAuthenticated}) => {
     const imageURL='https://www.freeiconspng.com/thumbs/blogger-logo-icon-png/blogger-logo-icon-png-20.png';
-    //const imageURL= 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
+    
     
     const [account,toggleAccount]=useState('login');
     const [signup,setSignup]=useState(signupInitialValues);
@@ -90,37 +90,61 @@ const Login = ({isUserAuthenticated}) => {
       setSignup({...signup,[e.target.name]:e.target.value});
     }
 
+
     const signupUser=async()=>{
-        let response=await API.userSignup(signup);
-        if (response.isSuccess) {
-            setError('');
-            setSignup(signupInitialValues);
-            toggleAccount('login');
-        }else{
-            setError('Something went wrong! Please try again later');
+        
+        try{
+            let response=await API.userSignup(signup);
+            if (response.isSuccess) {
+                setError('');
+                setSignup(signupInitialValues);
+                toggleAccount('login');
+            }
+            else{
+                setError('Something went wrong! Please try again later');
+                
+
+            }
+        }catch(err){
+            console.log(err);
+            window.alert('Invalid Credentials or something went wrong !Please try again later');
         }
     }
+
+
+    
     const onValueChange=(e)=>{
         setLogin({...login,[e.target.name]:e.target.value});
     }
     const loginuser=async()=>{
-        let response=await API.userLogin(login);
-        if (response.isSuccess) {
-            setError('');
-            sessionStorage.setItem('accessToken',`Bearer ${response.data.accessToken}`);
-            sessionStorage.setItem('refreshToken',`Bearer ${response.data.refreshToken}`);
+        try{
+            let response=await API.userLogin(login);
+            
+            if (response.isSuccess) {
+                setError('');
+                sessionStorage.setItem('accessToken',`Bearer ${response.data.accessToken}`);
+                sessionStorage.setItem('refreshToken',`Bearer ${response.data.refreshToken}`);
              
-            setAccount({username:response.data.username,  name:response.data.name});
+                setAccount({username:response.data.username,  name:response.data.name});
 
-            isUserAuthenticated(true);
+                isUserAuthenticated(true);
 
-            setLogin(loginInitialValues); ///////
+                setLogin(loginInitialValues); ///////
 
-            navigate('/');
-        }else{
-            setError('Something went wrong! Please try again later');//////
+                navigate('/');
+            }
+            else{
+                setError('Something went wrong! Please try again later');//////
+            }
+        }
+        catch(err){
+            console.log(err);
+            window.alert('Invalid Credentials or something went wrong !Please try again later');
         }
     }
+
+
+    
   return (
     <Component>
         <Box>
@@ -139,6 +163,7 @@ const Login = ({isUserAuthenticated}) => {
               </Wrapper> 
           :
           <Wrapper>
+            
             <TextField variant='standard' onChange={(e)=>onInputChange(e)}  name='name' label="Enter Name"/>
             <TextField variant='standard' onChange={(e)=>onInputChange(e)} name='username' label="Enter Username"/>
             <TextField variant='standard' onChange={(e)=>onInputChange(e)} name='password' label="Enter Password"/>

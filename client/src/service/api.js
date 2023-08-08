@@ -31,8 +31,9 @@ axiosInstance.interceptors.response.use(
     function(error){
         //stopping the global loader
         return Promise.reject(processError(error));
-    }
+    },
 )
+
 const processResponse=(response)=>{
     if(response?.status===200){
         return {
@@ -45,9 +46,15 @@ const processResponse=(response)=>{
             status:response?.status,
             msg:response?.msg,
             code:response?.code
+            // msg: response?.data.msg, 
+            // code: response?.data.code,
+            
         }
     }
 }
+
+
+  
 const processError=(error)=>{
     if (error.response) {
         //request made but server responded with statuscode!=200
@@ -75,6 +82,8 @@ const processError=(error)=>{
         }
     }
 }
+
+
 
 const API={};   //through this object,api will b called
 for (const [key,value] of Object.entries(SERVICE_URLS)){
